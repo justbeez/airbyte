@@ -1,94 +1,94 @@
 # Pardot (Salesforce Marketing Cloud Account Engagement)
 
-  ## Overview
+## Overview
 
-  This page contains the setup guide and reference information for the [Pardot (Salesforce Marketing Cloud Account Engagement)](https://www.salesforce.com/marketing/b2b-automation/) source connector.
+This page contains the setup guide and reference information for the [Pardot (Salesforce Marketing Cloud Account Engagement)](https://www.salesforce.com/marketing/b2b-automation/) source connector.
 
-  ## Prerequisites
+## Prerequisites
 
-  - Pardot/Marketing Cloud Account Engagement account
-  - Pardot Business Unit ID
-  - Client ID
-  - Client Secret
-  - Refresh Token
+- Pardot/Marketing Cloud Account Engagement account
+- Pardot Business Unit ID
+- Client ID
+- Client Secret
+- Refresh Token
 
-  ## Setup Guide
+## Setup Guide
 
-  ### Required configuration options
+### Required configuration options
 
-  - **Pardot Business Unit ID** (`pardot_business_unit_id`): This value uniquely identifies your account, and can be found at Setup > Pardot > Pardot Account Setup
+- **Pardot Business Unit ID** (`pardot_business_unit_id`): This value uniquely identifies your account, and can be found at Setup > Pardot > Pardot Account Setup
 
-  - **Client ID** (`client_id`): The Consumer Key that can be found when viewing your app in Salesforce
+- **Client ID** (`client_id`): The Consumer Key that can be found when viewing your app in Salesforce
 
-  - **Client Secret** (`client_secret`): The Consumer Secret that can be found when viewing your app in Salesforce
+- **Client Secret** (`client_secret`): The Consumer Secret that can be found when viewing your app in Salesforce
 
-  - **Refresh Token** (`refresh_token`): Salesforce Refresh Token used for Airbyte to access your Salesforce account. If you don't know what this is, follow [this guide](https://medium.com/@bpmmendis94/obtain-access-refresh-tokens-from-salesforce-rest-api-a324fe4ccd9b) to retrieve it.
+- **Refresh Token** (`refresh_token`): Salesforce Refresh Token used for Airbyte to access your Salesforce account. If you don't know what this is, follow [this guide](https://medium.com/@bpmmendis94/obtain-access-refresh-tokens-from-salesforce-rest-api-a324fe4ccd9b) to retrieve it.
 
-  ### Optional configuration options
+### Optional configuration options
 
-  - **Start Date** (`start_date`): UTC date and time in the format `2020-01-25T00:00:00Z`. Any data before this date will not be replicated. Defaults to `2007-01-01T00:00:00Z` (the year Pardot was launched)
+- **Start Date** (`start_date`): UTC date and time in the format `2020-01-25T00:00:00Z`. Any data before this date will not be replicated. Defaults to `2007-01-01T00:00:00Z` (the year Pardot was launched)
 
-  - **Is Sandbox App?** (`is_sandbox`): Whether or not the app is in a Salesforce sandbox. If you do not know what this is, assume it is false.
+- **Is Sandbox App?** (`is_sandbox`): Whether or not the app is in a Salesforce sandbox. If you do not know what this is, assume it is false.
 
-  ## Supported Sync Modes
+## Supported Sync Modes
 
-  The Pardot source connector supports the following [sync modes](https://docs.airbyte.com/cloud/core-concepts/#connection-sync-modes):
+The Pardot source connector supports the following [sync modes](https://docs.airbyte.com/cloud/core-concepts/#connection-sync-modes):
 
-  - Full Refresh
-  - Incremental
+- Full Refresh
+- Incremental
 
-  Incremental streams are based on the Pardot API's `UpdatedAt` field when the object is updateable and the API supports it; otherwise `CreatedAt` or `Id` are used in that order of preference.
+Incremental streams are based on the Pardot API's `UpdatedAt` field when the object is updateable and the API supports it; otherwise `CreatedAt` or `Id` are used in that order of preference.
 
-  ### Performance Considerations
+### Performance Considerations
 
-  The Pardot connector should not run into Pardot API limitations under normal usage. Please [create an issue](https://github.com/airbytehq/airbyte/issues) if you see any rate limit issues that are not automatically retried successfully.
+The Pardot connector should not run into Pardot API limitations under normal usage. Please [create an issue](https://github.com/airbytehq/airbyte/issues) if you see any rate limit issues that are not automatically retried successfully.
 
-  :::tip
+:::tip
 
-  Pardot has daily API limits based on plan level. If one of these limits is hit, the connector will retry every two hours until quota is replenished.
+Pardot has daily API limits based on plan level. If one of these limits is hit, the connector will retry every two hours until quota is replenished.
 
-  :::
+:::
 
-  ## Supported Streams
+## Supported Streams
 
-  Several output streams are available from this source. Unless noted otherwise, streams are from Pardot's v5 API:
+Several output streams are available from this source. Unless noted otherwise, streams are from Pardot's v5 API:
 
-  - [Account (Metadata)](https://developer.salesforce.com/docs/marketing/pardot/guide/account-v5.html) (full refresh)
-  - [Campaigns](https://developer.salesforce.com/docs/marketing/pardot/guide/campaign-v5.html) (incremental)
-  - [Custom Fields](https://developer.salesforce.com/docs/marketing/pardot/guide/custom-field-v5.html) (incremental)
-  - [Custom Redirects](https://developer.salesforce.com/docs/marketing/pardot/guide/custom-redirect-v5.html) (full refresh)
-  - [Dynamic Content](https://developer.salesforce.com/docs/marketing/pardot/guide/dynamic-content-v5.html) (incremental)
-  - [Dynamic Content Variations](https://developer.salesforce.com/docs/marketing/pardot/guide/dynamic-content-variation.html) (incremental parent)
-  - [Emails](https://developer.salesforce.com/docs/marketing/pardot/guide/email-v5.html) (incremental)
-  - [Email Clicks (v4 API)](https://developer.salesforce.com/docs/marketing/pardot/guide/batch-email-clicks-v4.html) (incremental)
-  - [Engagement Studio Programs](https://developer.salesforce.com/docs/marketing/pardot/guide/engagement-studio-program-v5.html) (incremental)
-  - [Files](https://developer.salesforce.com/docs/marketing/pardot/guide/export-v5.html) (full refresh)
-  - [Folders](https://developer.salesforce.com/docs/marketing/pardot/guide/folder-v5.html) (full refresh)
-  - [Folder Contents](https://developer.salesforce.com/docs/marketing/pardot/guide/folder-contents-v5.html) (incremental)
-  - [Forms](https://developer.salesforce.com/docs/marketing/pardot/guide/form-v5.html) (full refresh)
-  - [Form Fields](https://developer.salesforce.com/docs/marketing/pardot/guide/form-field-v5.html) (incremental)
-  - [Form Handlers](https://developer.salesforce.com/docs/marketing/pardot/guide/form-handler-v5.html) (full refresh)
-  - [Form Handler Fields](https://developer.salesforce.com/docs/marketing/pardot/guide/form-handler-field-v5.html) (full refresh)
-  - [Landing Pages](https://developer.salesforce.com/docs/marketing/pardot/guide/landing-page-v5.html) (incremental)
-  - [Layout Templates](https://developer.salesforce.com/docs/marketing/pardot/guide/layout-template-v5.html) (full refresh)
-  - [Lifecycle Stages](https://developer.salesforce.com/docs/marketing/pardot/guide/lifecycle-stage-v5.html) (incremental)
-  - [Lifecycle Histories](https://developer.salesforce.com/docs/marketing/pardot/guide/lifecycle-history-v5.html) (incremental)
-  - [Lists](https://developer.salesforce.com/docs/marketing/pardot/guide/list-v5.html) (incremental)
-  - [List Emails](https://developer.salesforce.com/docs/marketing/pardot/guide/list-email-v5.html) (incremental)
-  - [List Memberships](https://developer.salesforce.com/docs/marketing/pardot/guide/list-membership-v5.html) (incremental)
-  - [Opportunities](https://developer.salesforce.com/docs/marketing/pardot/guide/opportunity-v5.html) (incremental)
-  - [Prospects](https://developer.salesforce.com/docs/marketing/pardot/guide/prospect-v5.html) (incremental)
-  - [Prospect Accounts](https://developer.salesforce.com/docs/marketing/pardot/guide/prospect-account-v5.html) (full refresh)
-  - [Tags](https://developer.salesforce.com/docs/marketing/pardot/guide/tag-v5.html) (incremental)
-  - [Tracker Domains](https://developer.salesforce.com/docs/marketing/pardot/guide/tracker-domain-v5.html) (full refresh)
-  - [Users](https://developer.salesforce.com/docs/marketing/pardot/guide/user-v5.html) (incremental)
-  - [Visitors](https://developer.salesforce.com/docs/marketing/pardot/guide/visitor-v5.html) (incremental)
-  - [Visitor Activity](https://developer.salesforce.com/docs/marketing/pardot/guide/visitor-activity-v5.html) (incremental)
-  - [Visitor Page Views](https://developer.salesforce.com/docs/marketing/pardot/guide/visitor-page-view-v5.html) (incremental)
-  - [Visits](https://developer.salesforce.com/docs/marketing/pardot/guide/visit-v5.html) (incremental)
+- [Account (Metadata)](https://developer.salesforce.com/docs/marketing/pardot/guide/account-v5.html) (full refresh)
+- [Campaigns](https://developer.salesforce.com/docs/marketing/pardot/guide/campaign-v5.html) (incremental)
+- [Custom Fields](https://developer.salesforce.com/docs/marketing/pardot/guide/custom-field-v5.html) (incremental)
+- [Custom Redirects](https://developer.salesforce.com/docs/marketing/pardot/guide/custom-redirect-v5.html) (full refresh)
+- [Dynamic Content](https://developer.salesforce.com/docs/marketing/pardot/guide/dynamic-content-v5.html) (incremental)
+- [Dynamic Content Variations](https://developer.salesforce.com/docs/marketing/pardot/guide/dynamic-content-variation.html) (incremental parent)
+- [Emails](https://developer.salesforce.com/docs/marketing/pardot/guide/email-v5.html) (incremental)
+- [Email Clicks (v4 API)](https://developer.salesforce.com/docs/marketing/pardot/guide/batch-email-clicks-v4.html) (incremental)
+- [Engagement Studio Programs](https://developer.salesforce.com/docs/marketing/pardot/guide/engagement-studio-program-v5.html) (incremental)
+- [Files](https://developer.salesforce.com/docs/marketing/pardot/guide/export-v5.html) (full refresh)
+- [Folders](https://developer.salesforce.com/docs/marketing/pardot/guide/folder-v5.html) (full refresh)
+- [Folder Contents](https://developer.salesforce.com/docs/marketing/pardot/guide/folder-contents-v5.html) (incremental)
+- [Forms](https://developer.salesforce.com/docs/marketing/pardot/guide/form-v5.html) (full refresh)
+- [Form Fields](https://developer.salesforce.com/docs/marketing/pardot/guide/form-field-v5.html) (incremental)
+- [Form Handlers](https://developer.salesforce.com/docs/marketing/pardot/guide/form-handler-v5.html) (full refresh)
+- [Form Handler Fields](https://developer.salesforce.com/docs/marketing/pardot/guide/form-handler-field-v5.html) (full refresh)
+- [Landing Pages](https://developer.salesforce.com/docs/marketing/pardot/guide/landing-page-v5.html) (incremental)
+- [Layout Templates](https://developer.salesforce.com/docs/marketing/pardot/guide/layout-template-v5.html) (full refresh)
+- [Lifecycle Stages](https://developer.salesforce.com/docs/marketing/pardot/guide/lifecycle-stage-v5.html) (incremental)
+- [Lifecycle Histories](https://developer.salesforce.com/docs/marketing/pardot/guide/lifecycle-history-v5.html) (incremental)
+- [Lists](https://developer.salesforce.com/docs/marketing/pardot/guide/list-v5.html) (incremental)
+- [List Emails](https://developer.salesforce.com/docs/marketing/pardot/guide/list-email-v5.html) (incremental)
+- [List Memberships](https://developer.salesforce.com/docs/marketing/pardot/guide/list-membership-v5.html) (incremental)
+- [Opportunities](https://developer.salesforce.com/docs/marketing/pardot/guide/opportunity-v5.html) (incremental)
+- [Prospects](https://developer.salesforce.com/docs/marketing/pardot/guide/prospect-v5.html) (incremental)
+- [Prospect Accounts](https://developer.salesforce.com/docs/marketing/pardot/guide/prospect-account-v5.html) (full refresh)
+- [Tags](https://developer.salesforce.com/docs/marketing/pardot/guide/tag-v5.html) (incremental)
+- [Tracker Domains](https://developer.salesforce.com/docs/marketing/pardot/guide/tracker-domain-v5.html) (full refresh)
+- [Users](https://developer.salesforce.com/docs/marketing/pardot/guide/user-v5.html) (incremental)
+- [Visitors](https://developer.salesforce.com/docs/marketing/pardot/guide/visitor-v5.html) (incremental)
+- [Visitor Activity](https://developer.salesforce.com/docs/marketing/pardot/guide/visitor-activity-v5.html) (incremental)
+- [Visitor Page Views](https://developer.salesforce.com/docs/marketing/pardot/guide/visitor-page-view-v5.html) (incremental)
+- [Visits](https://developer.salesforce.com/docs/marketing/pardot/guide/visit-v5.html) (incremental)
 
 
-  If there are more endpoints you'd like Airbyte to support, please [create an issue](https://github.com/airbytehq/airbyte/issues/new/choose).
+If there are more endpoints you'd like Airbyte to support, please [create an issue](https://github.com/airbytehq/airbyte/issues/new/choose).
 
 ## Changelog
 
